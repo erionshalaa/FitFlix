@@ -7,18 +7,37 @@
       name="viewport"
       content="width=device-width, initial-scale=1, minimum-scale=1"
     />
-    <link
-      rel="shortcut icon"
-      href="https://r.mobirisesite.com/453190/assets/images/photo-1546483875-ad9014c88eba.jpeg"
-      type="image/x-icon"
-    />
+    <link rel="shortcut icon" href="https://r.mobirisesite.com/453190/assets/images/photo-1546483875-ad9014c88eba.jpeg" type="image/x-icon"/>
     <title>Ultimate Fitness Experience</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" >
-    <link rel="stylesheet" type="text/css" href="https://tinyurl.com/mry833jm" />
-    <link rel="stylesheet" type="text/css"  href="https://tinyurl.com/2kbfcjzd" />
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://tinyurl.com/mry833jm"/>
+    <link  rel="stylesheet" type="text/css" href="https://tinyurl.com/2kbfcjzd"/>
     <link rel="stylesheet" type="text/css" href="css/styles.css" />
+    <link rel="stylesheet" type="text/css" href="css/loader.css" />
+
+    <style>
+      .footeri {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+      }
+      #audioPlayer {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        z-index: 1000;
+        border-radius: 5px;
+        padding: 5px;
+      }
+    </style>
+
   </head>
   <body>
+    <div class="loader_bg" id="loaderBg">
+      <div class="loader"></div>
+    </div>
+
     <section class="menu menu2 navvbar">
       <nav class="navbar navbar-dropdown navbar-fixed-top navbar-expand-lg">
         <div class="container">
@@ -57,27 +76,33 @@
       </nav>
     </section>
 
+    <audio controls id="audioPlayer">
+      <source src="assets/Find.mp3" type="audio/mpeg" />
+    </audio>
+
     <section class="header16 backgroundvid">
-        <video autoplay muted loop class="backgroundvideo_">
-          <source src="assets/Gym.mp4" type="video/mp4">
-        </video>
-        <div class="container-fluid" style="position: absolute;">
-          <div class="row">
-            <div class="content-wrap col-12 col-md-12">
-              <h1 class="mbr-section-title mbr-fonts-style mbr-white mb-4 display-1">
-                <strong>FitLife</strong>
-              </h1>
-              <p class="mbr-fonts-style mbr-text mbr-white mb-4 display-7">
-                Unleash Your Inner Beast with FitFlix - Where Fitness Meets Fun!
-              </p>
-              <div class="mbr-section-btn">
-                <a class="btn btn-white-outline display-7">Get Started</a>
-              </div>
+      <video autoplay muted loop class="backgroundvideo_">
+        <source src="assets/Gym.mp4" type="video/mp4" />
+      </video>
+      <div class="container-fluid" style="position: absolute">
+        <div class="row">
+          <div class="content-wrap col-12 col-md-12">
+            <h1
+              class="mbr-section-title mbr-fonts-style mbr-white mb-4 display-1"
+            >
+              <strong>FitLife</strong>
+            </h1>
+            <p class="mbr-fonts-style mbr-text mbr-white mb-4 display-7">
+              Unleash Your Inner Beast with FitFlix - Where Fitness Meets Fun!
+            </p>
+            <div class="mbr-section-btn">
+              <a class="btn btn-white-outline display-7">Get Started</a>
             </div>
           </div>
         </div>
-      </section>
-      
+      </div>
+    </section>
+
     <section class="article2 about">
       <div class="container">
         <div class="row justify-content-center">
@@ -584,9 +609,99 @@
       </div>
     </section>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/8.1.6/pixi.min.js"></script>
+    <script type="module">
+      import {
+        Application,
+        Assets,
+        Sprite,
+      } from "https://cdn.skypack.dev/pixi.js";
+
+      (async () => {
+        // Create a new application
+        const app = new Application();
+
+        // Initialize the application
+        await app.init({ background: "#000000" });
+
+        const footerSection = document.querySelector(".footeri");
+        footerSection.appendChild(app.canvas);
+
+        app.renderer.resize(130, 100);
+        // Load the bunny texture
+        const texture = await Assets.load(
+          "https://cdn.iconscout.com/icon/premium/png-512-thumb/dumbbell-29-131254.png?f=webp&w=256"
+        );
+
+        // Create a bunny Sprite
+        const bunny = new Sprite(texture);
+
+        // Center the sprite's anchor point
+        bunny.anchor.set(0.5);
+        bunny.scale.set(0.2);
+
+        // Move the sprite to the center of the screen
+        bunny.x = app.screen.width / 2;
+        bunny.y = app.screen.height / 2;
+
+        app.stage.addChild(bunny);
+
+        // Listen for animate update
+        app.ticker.add((time) => {
+          // * Delta is 1 if running at 100% performance *
+          // * Creates frame-independent transformation *
+          bunny.rotation += 0.05 * time.deltaTime;
+        });
+      })();
+    </script>
+    <script type="module">
+      import {
+        Application,
+        TextStyle,
+        Text,
+      } from "https://cdn.skypack.dev/pixi.js";
+
+      // Wait for the DOM content to be fully loaded
+      document.addEventListener("DOMContentLoaded", async () => {
+        // Create a new application
+        const app = new Application();
+
+        // Initialize the application
+        await app.init({ background: "#fff" });
+
+        // Append the canvas element to the footer section
+        const footerSection = document.querySelector(".image");
+        footerSection.appendChild(app.canvas);
+
+        app.renderer.resize(1500, 300);
+
+        // Define text style
+        const textStyle = new TextStyle({
+          fontFamily: "Arial",
+          fontSize: 40,
+          fontWeight: "bold",
+          fill: "black",
+          align: "center",
+        });
+
+        // Create text object
+        const footerText = new Text(
+          "Embrace the grind, celebrate the gains",
+          textStyle
+        );
+        footerText.anchor.set(1); // Center align the text
+        footerText.position.set(
+          app.renderer.width / 1.3,
+          app.renderer.height / 1
+        );
+
+        // Add text to the stage
+        app.stage.addChild(footerText);
+      });
+    </script>
+    <script src="js/loader.js" ></script>
     <script src="https://r.mobirisesite.com/453190/assets/scrollgallery/scroll-gallery.js?rnd=1716145368903"></script>
     <script src="https://cdn.jsdelivr.net/npm/embla-carousel/embla-carousel.umd.js"></script>
-    <script src="js/background.js"></script>
     <script src="js/carousel.js"></script>
   </body>
 </html>
